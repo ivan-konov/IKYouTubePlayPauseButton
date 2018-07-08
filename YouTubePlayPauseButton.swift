@@ -44,7 +44,7 @@ class PausePlayLayer: CAShapeLayer {
     var state: PausePlayLayer.State
     var side: PausePlayLayer.Side
     
-    init(frame: CGRect, side: PausePlayLayer.Side) {
+    init(frame: CGRect, side: PausePlayLayer.Side, tintColor: UIColor) {
         self.side = side
         switch side {
         case .left:
@@ -56,6 +56,7 @@ class PausePlayLayer: CAShapeLayer {
         super.init()
         
         self.frame = frame
+        fillColor = tintColor.cgColor
         path = pathForCurrentState()
     }
     
@@ -154,6 +155,7 @@ class YouTubePlayPauseButton: UIView {
         case paused
         case playing
     }
+    
     typealias ToggleAcion = () -> ()
     
     private let leftWidthProportion: CGFloat = 0.68
@@ -163,14 +165,12 @@ class YouTubePlayPauseButton: UIView {
     var toggleAction: ToggleAcion?
     
     lazy var leftLayer: PausePlayLayer = {
-        let layer = PausePlayLayer(frame: CGRect(x: 0, y: 0, width: leftWidthProportion * bounds.size.width, height: bounds.size.height), side: .left)
-        layer.fillColor = tintColor.cgColor
+        let layer = PausePlayLayer(frame: CGRect(x: 0, y: 0, width: leftWidthProportion * bounds.size.width, height: bounds.size.height), side: .left, , tintColor: tintColor)
         
         return layer
     }()
     lazy var rightLayer: PausePlayLayer = {
-        let layer = PausePlayLayer(frame: CGRect(x: leftWidthProportion * bounds.size.width, y: 0, width: rightWidthProportion * bounds.size.width, height: bounds.size.height), side: .right)
-        layer.fillColor = tintColor.cgColor
+        let layer = PausePlayLayer(frame: CGRect(x: leftWidthProportion * bounds.size.width, y: 0, width: rightWidthProportion * bounds.size.width, height: bounds.size.height), side: .right, tintColor: tintColor)
         
         return layer
     }()
